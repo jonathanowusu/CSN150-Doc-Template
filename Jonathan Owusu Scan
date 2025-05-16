@@ -1,0 +1,70 @@
+# **ESP32-CAM WiFiScanner Example**
+
+This example demonstrates how to use the WiFi library to scan available WiFi networks and print the results using an **ESP32-CAM (AI Thinker board)**.
+
+## **Supported Targets**
+
+Currently, this example supports the following targets.
+
+| Supported Targets | ESP32 | ESP32-S2 | ESP32-C3 | ESP32-S3 | ESP32-C6 |
+| ----------------- | ----- | -------- | -------- | -------- | -------- |
+
+## **How to Use Example**
+
+* How to install the Arduino IDE: [Install Arduino IDE](https://github.com/espressif/arduino-esp32/tree/master/docs/arduino-ide).
+
+#### **Using Arduino IDE**
+* Before compiling and verifying, select the correct board:  
+  - `Tools -> Board -> AI Thinker ESP32-CAM`  
+  - Set **Partition Scheme** to **Huge APP (3MB No OTA/1MB SPIFFS)**  
+  - Set **Upload Speed** to `115200`  
+* Select the COM port: `Tools -> Port: xxx`, where `xxx` is the detected COM port.  
+
+#### **Using PlatformIO**
+* Select the COM port: `Devices` or set the `upload_port` option in the `platformio.ini` file.  
+* Configure the `platformio.ini` file:
+  ```
+  [env:esp32cam]
+  platform = espressif32
+  board = esp32cam
+  framework = arduino
+  upload_speed = 115200
+  monitor_speed = 115200
+  build_flags = -D LED_BUILTIN=4
+  ```
+
+## **Example/Log Output**
+```
+Setup done
+Scan start
+Scan done
+12 networks found
+Nr | SSID            | RSSI | CH | Encryption
+ 1 | HomeWiFi        |  -65 |  6 | WPA2
+ 2 | GuestNetwork    |  -62 | 11 | WPA2
+ 3 | IoT_Device      |  -72 |  1 | WPA+WPA2
+...
+```
+
+## **Troubleshooting**
+
+***Important: Ensure you're using a high-quality USB cable that supports data transfer and provides sufficient power.***
+
+* **Programming Fail:** If the flashing procedure fails, try reducing the upload speed (`115200` works best).  
+* **COM port not detected:** Verify USB cable connection, and install the correct USB-to-serial driver.  
+* **WiFi scan shows zero networks:** Ensure an **external antenna** is connected for improved signal reception.  
+
+If errors persist, refer to the official [ESP32 forum](https://esp32.com) or see [Contribute](#contribute).  
+
+## **Contribute**  
+To learn how to contribute to this project, see [How to contribute.](https://github.com/espressif/arduino-esp32/blob/master/CONTRIBUTING.rst).  
+
+If you have feedback or issues to report on this example, please open an issue or submit a pull request. Contributions are welcome!  
+
+Before creating a new issue, ensure you've tried the troubleshooting steps and checked for similar issues posted by others.  
+
+## **Resources**  
+* Arduino-ESP32 Official Repository: [espressif/arduino-esp32](https://github.com/espressif/arduino-esp32)  
+* ESP32-CAM Datasheet: [Link to datasheet](https://www.espressif.com/sites/default/files/documentation/esp32_cam_datasheet_en.pdf)  
+* Official ESP-IDF documentation: [ESP-IDF](https://idf.espressif.com)  
+  
