@@ -1,0 +1,107 @@
+ESP32 WhatsApp Messaging Guide
+
+##Overview
+This guide explains how to send WhatsApp messages using an ESP32 microcontroller. The ESP32 will connect to the internet and send messages through a WhatsApp API service like Twilio or WhatsApp Cloud API.
+
+Prerequisites
+ESP32 Board
+
+Stable Wi-Fi Connection
+
+WhatsApp API Service (e.g., Twilio or WhatsApp Cloud API)
+
+API Credentials (Account SID, Auth Token, API Key)
+
+##How to Set Up the ESP32 for WhatsApp Messaging
+1. Get WhatsApp API Access
+To send WhatsApp messages, you need an API provider:
+
+Twilio API: Twilio WhatsApp API
+
+Meta WhatsApp Cloud API: Meta WhatsApp Cloud API
+
+2. Install Required Libraries
+Install the necessary HTTP client libraries in the Arduino IDE or PlatformIO:
+
+ArduinoJson by Benoît Blanchon
+ESP8266HTTPClient (for ESP32)
+
+3. ESP32 Code to Send a WhatsApp Message
+#include <WiFi.h>    
+#include <HTTPClient.h>
+#include <UrlEncode.h>
+
+const char* ssid = "";
+const char* password = "";
+
+// +international_country_code + phone number
+// Portugal +351, example: +351912345678
+String phoneNumber = "";
+String apiKey = "";
+
+void sendMessage(String message){
+
+  // Data to send with HTTP POST
+  String url = "https://api.callmebot.com/whatsapp.php?phone=" + phoneNumber + "&apikey=" + apiKey + "&text=" + urlEncode(message);    
+  HTTPClient http;
+  http.begin(url);
+
+  // Specify content-type header
+  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+  
+  // Send HTTP POST request
+  int httpResponseCode = http.POST(url);
+  if (httpResponseCode == 200){
+    Serial.print("Message sent successfully");
+  }
+  else{
+    Serial.println("Error sending the message");
+    Serial.print("HTTP response code: ");
+    Serial.println(httpResponseCode);
+  }
+
+  // Free resources
+  http.end();
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  WiFi.begin(ssid, password);
+  Serial.println("Connecting");
+  while(WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.print("Connected to WiFi network with IP Address: ");
+  Serial.println(WiFi.localIP());
+
+  // Send Message to WhatsAPP
+  sendMessage("You aced the class!!");
+}
+
+void loop() {
+  
+}
+
+4. Running the Code
+Flash the ESP32 with this code.
+
+Open the Serial Monitor to observe the message-sending process.
+
+If everything is configured correctly, the message will be sent to your WhatsApp number.
+
+##Troubleshooting
+Ensure the Wi-Fi credentials are correct.
+
+Verify your API credentials (Twilio or Meta).
+
+Make sure WhatsApp Cloud API access is enabled on your account.
+
+Check for rate limits on your API provider.
+
+##Resources
+Twilio WhatsApp API
+
+Meta WhatsApp Cloud API
